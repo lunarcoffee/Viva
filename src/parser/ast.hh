@@ -7,7 +7,7 @@
 class AST {
 public:
     explicit AST(Lexer&& lexer);
-    void construct();
+    Node* construct();
 private:
     Lexer lexer;
 

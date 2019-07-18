@@ -18,7 +18,7 @@ public:
 
     virtual void generate() = 0;
 protected:
-    explicit Node(NRefVec&& children, NT type);
+    Node(NRefVec&& children, NT type);
 };
 
 

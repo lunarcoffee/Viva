@@ -14,6 +14,9 @@ set(
     src/parser/ast.hh
     src/parser/nodes.cc
     src/parser/nodes.hh
+
+    src/gen.cc
+    src/gen.hh
 )
 
 add_executable(Viva ${SOURCES} src/main.cc)

@@ -6,8 +6,9 @@
 
 AST::AST(Lexer&& lexer) : lexer(lexer) {}
 
-void AST::construct() {
-    auto main{function_definition()};
+Node* AST::construct() {
+    static auto root{function_definition()};
+    return &root;
 }
 
 FunctionDefinition AST::function_definition() {
