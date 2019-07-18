@@ -1,0 +1,1 @@
+/usr/bin/g++  -g   CMakeFiles/Viva.dir/src/lexer.cc.o CMakeFiles/Viva.dir/src/token.cc.o CMakeFiles/Viva.dir/src/parser/ast.cc.o CMakeFiles/Viva.dir/src/parser/nodes.cc.o CMakeFiles/Viva.dir/src/main.cc.o  -o Viva 

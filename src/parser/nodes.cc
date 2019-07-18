@@ -1,14 +1,25 @@
 #include <utility>
+#include <iostream>
 
 #include "nodes.hh"
 
-Node::Node(NPtrVec&& children) : children(children) {}
+Node::Node(NRefVec&& children, NT type) : children(children), type(type) {}
 
-FunctionDefinition::FunctionDefinition(
-    std::string&& name,
-    Return&& body) : Node(NPtrVec{std::make_shared<Return>(body)}), name(name), body(body) {}
+FunctionDefinition::FunctionDefinition(std::string&& name, Return&& body)
+    : Node(NRefVec{&body}, NT::FUNC), name(name) {}
 
-Return::Return(int value)
-    : constant(Constant{value}), Node(NPtrVec{std::make_shared<Constant>(this->constant)}) {}
+void FunctionDefinition::generate() {
 
-Constant::Constant(int value) : Node(NPtrVec{}), value(value) {}
+}
+
+Return::Return(int value) : constant(Constant{value}), Node(NRefVec{}, NT::RET) {}
+
+void Return::generate() {
+
+}
+
+Constant::Constant(int value) : Node(NRefVec{}, NT::CONST), value(value) {}
+
+void Constant::generate() {
+
+}

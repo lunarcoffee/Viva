@@ -6,7 +6,7 @@
 
 class AST {
 public:
-    explicit AST(Lexer&&lexer);
+    explicit AST(Lexer&& lexer);
     void construct();
 private:
     Lexer lexer;

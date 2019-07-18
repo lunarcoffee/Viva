@@ -7,31 +7,30 @@
 AST::AST(Lexer&& lexer) : lexer(lexer) {}
 
 void AST::construct() {
-    FunctionDefinition main{function_definition()};
-    std::cout << main.name << main.body.constant.value;
+    auto main{function_definition()};
 }
 
 FunctionDefinition AST::function_definition() {
-    Token return_type{lexer.next_token()};
+    auto return_type{lexer.next_token()};
     if (return_type.type != TT::KEYWORD || return_type.value != "int")
         error();
 
-    Token name{lexer.next_token()};
+    auto name{lexer.next_token()};
     if (name.type != TT::ID)
         error();
 
-    Token lparen{lexer.next_token()};
-    Token rparen{lexer.next_token()};
+    auto lparen{lexer.next_token()};
+    auto rparen{lexer.next_token()};
     if (lparen.type != TT::LPAREN || rparen.type != TT::RPAREN)
         error();
 
-    Token lbrace{lexer.next_token()};
+    auto lbrace{lexer.next_token()};
     if (lbrace.type != TT::LBRACE)
         error();
 
-    Return return_stmt{ret()};
+    auto return_stmt{ret()};
 
-    Token rbrace{lexer.next_token()};
+    auto rbrace{lexer.next_token()};
     if (rbrace.type != TT::RBRACE)
         error();
 
@@ -39,24 +38,25 @@ FunctionDefinition AST::function_definition() {
 }
 
 Return AST::ret() {
-    Token return_stmt{lexer.next_token()};
+    auto return_stmt{lexer.next_token()};
     if (return_stmt.type != TT::KEYWORD || return_stmt.value != "return")
         error();
 
-    Token return_value{lexer.next_token()};
-    if (return_value.type != TT::INT)
-        error();
-
+    auto return_value{constant()};
     semicolon();
-    return Return(std::stoi(return_value.value));
+
+    return Return(return_value.value);
 }
 
 Constant AST::constant() {
-
+    auto return_value{lexer.next_token()};
+    if (return_value.type != TT::INT)
+        error();
+    return Constant(std::stoi(return_value.value));
 }
 
 void AST::semicolon() {
-    Token semicolon{lexer.next_token()};
+    auto semicolon{lexer.next_token()};
     if (semicolon.type != TT::SEMICOLON)
         error();
 }

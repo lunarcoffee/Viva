@@ -14,29 +14,29 @@ Token Lexer::next_token() {
             return Token(TT::INT, consume_while(R"(\d)"));
 
         if (isalpha(cur_char[0]) || cur_char == "_") {
-            std::string str{consume_while(R"(\w)")};
+            auto str{consume_while(R"(\w)")};
             return Token(str == "int" || str == "return" ? TT::KEYWORD : TT::ID, std::move(str));
         }
 
         Token token;
         switch (cur_char[0]) {
-        case ';':
-            token = Token(TT::SEMICOLON, ";");
-            break;
-        case '{':
-            token = Token(TT::LBRACE, "{");
-            break;
-        case '}':
-            token = Token(TT::RBRACE, "}");
-            break;
-        case '(':
-            token = Token(TT::LPAREN, "(");
-            break;
-        case ')':
-            token = Token(TT::RPAREN, ")");
-            break;
-        default:
-            error();
+            case ';':
+                token = Token(TT::SEMICOLON, ";");
+                break;
+            case '{':
+                token = Token(TT::LBRACE, "{");
+                break;
+            case '}':
+                token = Token(TT::RBRACE, "}");
+                break;
+            case '(':
+                token = Token(TT::LPAREN, "(");
+                break;
+            case ')':
+                token = Token(TT::RPAREN, ")");
+                break;
+            default:
+                error();
         }
 
         advance();
@@ -46,7 +46,7 @@ Token Lexer::next_token() {
 }
 
 std::string Lexer::consume_while(const std::string& regex_string) {
-    std::regex regex(regex_string);
+    std::regex regex{regex_string};
     std::string res;
 
     while (std::regex_match(cur_char, regex)) {
@@ -57,7 +57,7 @@ std::string Lexer::consume_while(const std::string& regex_string) {
 }
 
 void Lexer::ignore_spaces() {
-    while (cur_char == " ")
+    while (cur_char == " " || cur_char == "\n")
         advance();
 }
 

@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/lunarcoffee/cpp_dev/Viva/src/lexer.hh
+string
+-
+token.hh
+/home/lunarcoffee/cpp_dev/Viva/src/token.hh
+
+/home/lunarcoffee/cpp_dev/Viva/src/main.cc
+iostream
+-
+fstream
+-
+sstream
+-
+lexer.hh
+/home/lunarcoffee/cpp_dev/Viva/src/lexer.hh
+parser/ast.hh
+/home/lunarcoffee/cpp_dev/Viva/src/parser/ast.hh
+
+/home/lunarcoffee/cpp_dev/Viva/src/parser/ast.hh
+../lexer.hh
+/home/lunarcoffee/cpp_dev/Viva/src/lexer.hh
+nodes.hh
+/home/lunarcoffee/cpp_dev/Viva/src/parser/nodes.hh
+
+/home/lunarcoffee/cpp_dev/Viva/src/parser/nodes.hh
+vector
+-
+string
+-
+memory
+-
+
+/home/lunarcoffee/cpp_dev/Viva/src/token.hh
+string
+-
+

@@ -1,0 +1,4 @@
+/media/lunarcoffee/9a03d7f5-f645-4247-a578-392ad292f1a6/clion-2019.1.2/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -G "CodeBlocks - Unix Makefiles" /home/lunarcoffee/cpp_dev/Viva
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/lunarcoffee/cpp_dev/Viva/cmake-build-debug

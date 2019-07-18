@@ -3,7 +3,9 @@
 
 #include <string>
 
-enum class TokenType { INT, ID, KEYWORD, SEMICOLON, LBRACE, RBRACE, LPAREN, RPAREN, END };
+enum class TokenType {
+    INT, ID, KEYWORD, SEMICOLON, LBRACE, RBRACE, LPAREN, RPAREN, END
+};
 typedef TokenType TT;
 
 class Token {
@@ -12,7 +14,7 @@ public:
     std::string value;
 
     Token();
-    Token(TokenType type, std::string &&value);
+    Token(TokenType type, std::string&& value);
 };
 
 #endif
