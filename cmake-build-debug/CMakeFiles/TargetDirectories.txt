@@ -1,3 +1,0 @@
-/home/lunarcoffee/cpp_dev/Viva/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/lunarcoffee/cpp_dev/Viva/cmake-build-debug/CMakeFiles/Viva.dir
-/home/lunarcoffee/cpp_dev/Viva/cmake-build-debug/CMakeFiles/edit_cache.dir
