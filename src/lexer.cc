@@ -7,6 +7,8 @@
 Lexer::Lexer(std::string code) : code(code), pos(0), cur_char(std::string(1, code[0])) {}
 
 Token Lexer::next_token() {
+    // If there are values which have been sent back to the lexer (via [send_back] or other
+    // internal means), finish sending those over lexing a new one from the code.
     if (!returned.empty()) {
         auto top{returned.top()};
         returned.pop();
@@ -16,9 +18,11 @@ Token Lexer::next_token() {
     while (cur_char != "<EOF>") {
         ignore_spaces();
 
+        // Try to consume an integer.
         if (isdigit(cur_char[0]))
             return Token(TT::S32, consume_while(R"(\d)"));
 
+        // Try to consume a keyword. If it isn't a keyword, assume it is an identifier.
         if (isalpha(cur_char[0]) || cur_char == "_") {
             auto str{consume_while(R"(\w)")};
             return Token(str == "s32" || str == "return" ? TT::KEYWORD : TT::ID, std::move(str));
@@ -54,6 +58,8 @@ Token Lexer::next_token() {
     return Token(TT::END, "");
 }
 
+// Sends a token back to the lexer. This function is like the opposite of [next_token]. After
+// calling this function, the next token that will be returned by [next_token] will be [token].
 void Lexer::send_back(const Token& token) {
     returned.emplace(token);
 }

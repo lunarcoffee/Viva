@@ -6,6 +6,7 @@
 enum class TokenType {
     S32, ID, KEYWORD, SEMICOLON, COLON, LBRACE, RBRACE, LPAREN, RPAREN, END
 };
+
 typedef TokenType TT;
 
 class Token {
