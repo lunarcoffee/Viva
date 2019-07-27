@@ -11,32 +11,29 @@ Token Lexer::next_token() {
         ignore_spaces();
 
         if (isdigit(cur_char[0]))
-            return Token(TT::INT, consume_while(R"(\d)"));
+            return Token(TT::S32, consume_while(R"(\d)"));
 
         if (isalpha(cur_char[0]) || cur_char == "_") {
             auto str{consume_while(R"(\w)")};
-            return Token(str == "int" || str == "return" ? TT::KEYWORD : TT::ID, std::move(str));
+            return Token(str == "s32" || str == "return" ? TT::KEYWORD : TT::ID, std::move(str));
         }
 
         Token token;
         switch (cur_char[0]) {
-            case ';':
-                token = Token(TT::SEMICOLON, ";");
-                break;
-            case '{':
-                token = Token(TT::LBRACE, "{");
-                break;
-            case '}':
-                token = Token(TT::RBRACE, "}");
-                break;
-            case '(':
-                token = Token(TT::LPAREN, "(");
-                break;
-            case ')':
-                token = Token(TT::RPAREN, ")");
-                break;
-            default:
-                error();
+        case ':':
+            token = Token(TT::COLON, ":");
+            break;
+        case ';':
+            token = Token(TT::SEMICOLON, ";");
+            break;
+        case '{':
+            token = Token(TT::LBRACE, "{");
+            break;
+        case '}':
+            token = Token(TT::RBRACE, "}");
+            break;
+        default:
+            error();
         }
 
         advance();

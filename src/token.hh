@@ -4,7 +4,7 @@
 #include <string>
 
 enum class TokenType {
-    INT, ID, KEYWORD, SEMICOLON, LBRACE, RBRACE, LPAREN, RPAREN, END
+    S32, ID, KEYWORD, SEMICOLON, COLON, LBRACE, RBRACE, END
 };
 typedef TokenType TT;
 

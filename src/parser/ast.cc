@@ -6,23 +6,22 @@
 
 AST::AST(Lexer&& lexer) : lexer(lexer) {}
 
-Node* AST::construct() {
+std::shared_ptr<Node> AST::construct() {
     static auto root{function_definition()};
-    return &root;
+    return root;
 }
 
-FunctionDefinition AST::function_definition() {
+std::shared_ptr<FunctionDefinition> AST::function_definition() {
     auto return_type{lexer.next_token()};
-    if (return_type.type != TT::KEYWORD || return_type.value != "int")
+    if (return_type.type != TT::KEYWORD || return_type.value != "s32")
         error();
 
     auto name{lexer.next_token()};
     if (name.type != TT::ID)
         error();
 
-    auto lparen{lexer.next_token()};
-    auto rparen{lexer.next_token()};
-    if (lparen.type != TT::LPAREN || rparen.type != TT::RPAREN)
+    auto colon{lexer.next_token()};
+    if (colon.type != TT::COLON)
         error();
 
     auto lbrace{lexer.next_token()};
@@ -35,10 +34,10 @@ FunctionDefinition AST::function_definition() {
     if (rbrace.type != TT::RBRACE)
         error();
 
-    return FunctionDefinition(std::move(name.value), std::move(return_stmt));
+    return std::make_shared<FunctionDefinition>(std::move(name.value), return_stmt);
 }
 
-Return AST::ret() {
+std::shared_ptr<Return> AST::ret() {
     auto return_stmt{lexer.next_token()};
     if (return_stmt.type != TT::KEYWORD || return_stmt.value != "return")
         error();
@@ -46,14 +45,14 @@ Return AST::ret() {
     auto return_value{constant()};
     semicolon();
 
-    return Return(return_value.value);
+    return std::make_shared<Return>(return_value);
 }
 
-Constant AST::constant() {
+std::shared_ptr<Constant> AST::constant() {
     auto return_value{lexer.next_token()};
-    if (return_value.type != TT::INT)
+    if (return_value.type != TT::S32)
         error();
-    return Constant(std::stoi(return_value.value));
+    return std::make_shared<Constant>(std::stoi(return_value.value));
 }
 
 void AST::semicolon() {

@@ -3,27 +3,24 @@
 Generator::Generator(AST&& ast, std::ofstream& file) : ast(ast), file(file) {}
 
 void Generator::gen() {
-    auto root{ast.construct()};
-    traverse(root);
+    traverse(ast.construct());
 }
 
-void Generator::traverse(Node* node) {
-//    if (!node->children.empty())
-//        for (auto* n : node->children)
-//            traverse(n);
-
+void Generator::traverse(const std::shared_ptr<Node>& node) {
     switch (node->type) {
-        case NT::FUNC: {
-            std::string raw_name{((FunctionDefinition*) node)->name};
-            std::string name{raw_name == "main" ? "_start" : raw_name};
-            file << "global " << name << "\n" << name << ":\n";
-            traverse(node->children[0]);
-            break;
-        }
-        case NT::RET:
-            file << "mov eax, " << ((Return*) node)->constant.value << "\nret";
-            break;
-        default:
-            throw std::invalid_argument("bruh");
+    case NT::FUNC: {
+        std::string raw_name{reinterpret_cast<FunctionDefinition*>(node.get())->name};
+        std::string name{raw_name == "main" ? "_start" : raw_name};
+        file << "global " << name << "\n" << name << ":\n";
+        traverse(node->children[0]);
+        break;
+    }
+    case NT::RET: {
+        auto r{reinterpret_cast<Return*>(node.get())};
+        file << "mov eax, " << r->constant->value << "\nret";
+        break;
+    }
+    default:
+        throw std::invalid_argument("AST is incorrect!");
     }
 }

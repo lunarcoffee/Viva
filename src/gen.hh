@@ -13,7 +13,7 @@ private:
     AST ast;
     std::ofstream& file;
 
-    void traverse(Node* node);
+    void traverse(const std::shared_ptr<Node>& node);
 };
 
 #endif

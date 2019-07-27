@@ -7,13 +7,13 @@
 class AST {
 public:
     explicit AST(Lexer&& lexer);
-    Node* construct();
+    std::shared_ptr<Node> construct();
 private:
     Lexer lexer;
 
-    FunctionDefinition function_definition();
-    Return ret();
-    Constant constant();
+    std::shared_ptr<FunctionDefinition> function_definition();
+    std::shared_ptr<Return> ret();
+    std::shared_ptr<Constant> constant();
 
     void semicolon();
     static void error();

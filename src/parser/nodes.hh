@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <variant>
 
 enum class NodeType {
     FUNC, RET, CONST
@@ -13,37 +14,28 @@ typedef NodeType NT;
 class Node {
 public:
     NT type;
-    typedef std::vector<Node*> NRefVec;
+    typedef std::vector<std::shared_ptr<Node>> NRefVec;
     NRefVec children;
-
-    virtual void generate() = 0;
 protected:
     Node(NRefVec&& children, NT type);
 };
 
-
 class Constant : public Node {
 public:
     int value;
-
     explicit Constant(int value);
-    void generate() override;
 };
 
 class Return : public Node {
 public:
-    Constant constant;
-
-    explicit Return(int value);
-    void generate() override;
+    std::shared_ptr<Constant> constant;
+    explicit Return(std::shared_ptr<Constant> value);
 };
 
 class FunctionDefinition : public Node {
 public:
     std::string name;
-
-    FunctionDefinition(std::string&& name, Return&& body);
-    void generate() override;
+    FunctionDefinition(std::string&& name, const std::shared_ptr<Return>& body);
 };
 
 #endif
