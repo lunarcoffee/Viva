@@ -11,8 +11,11 @@ public:
 private:
     Lexer lexer;
 
+    std::shared_ptr<Program> program();
     std::shared_ptr<FunctionDefinition> function_definition();
     std::shared_ptr<Return> ret();
+    std::shared_ptr<Expression> exp();
+    std::shared_ptr<FunctionCall> func_call();
     std::shared_ptr<Constant> constant();
 
     void semicolon();

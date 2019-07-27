@@ -7,6 +7,12 @@
 Lexer::Lexer(std::string code) : code(code), pos(0), cur_char(std::string(1, code[0])) {}
 
 Token Lexer::next_token() {
+    if (!returned.empty()) {
+        auto top{returned.top()};
+        returned.pop();
+        return top;
+    }
+
     while (cur_char != "<EOF>") {
         ignore_spaces();
 
@@ -32,6 +38,12 @@ Token Lexer::next_token() {
         case '}':
             token = Token(TT::RBRACE, "}");
             break;
+        case '(':
+            token = Token(TT::LPAREN, "(");
+            break;
+        case ')':
+            token = Token(TT::RPAREN, ")");
+            break;
         default:
             error();
         }
@@ -40,6 +52,10 @@ Token Lexer::next_token() {
         return token;
     }
     return Token(TT::END, "");
+}
+
+void Lexer::send_back(const Token& token) {
+    returned.emplace(token);
 }
 
 std::string Lexer::consume_while(const std::string& regex_string) {

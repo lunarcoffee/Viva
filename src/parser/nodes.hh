@@ -7,18 +7,20 @@
 #include <variant>
 
 enum class NodeType {
-    FUNC, RET, CONST
+    PROGRAM, FUNC, RET, EXP, FUNC_CALL, CONST
 };
+
 typedef NodeType NT;
 
 class Node {
 public:
     NT type;
-    typedef std::vector<std::shared_ptr<Node>> NRefVec;
-    NRefVec children;
+    std::vector<std::shared_ptr<Node>> children;
 protected:
-    Node(NRefVec&& children, NT type);
+    Node(std::vector<std::shared_ptr<Node>>&& children, NT type);
 };
+
+typedef std::vector<std::shared_ptr<Node>> NRefVec;
 
 class Constant : public Node {
 public:
@@ -26,16 +28,31 @@ public:
     explicit Constant(int value);
 };
 
+class FunctionCall : public Node {
+public:
+    std::string name;
+    explicit FunctionCall(std::string&& name);
+};
+
+class Expression : public Node {
+public:
+    explicit Expression(NRefVec&& children);
+};
+
 class Return : public Node {
 public:
-    std::shared_ptr<Constant> constant;
-    explicit Return(std::shared_ptr<Constant> value);
+    explicit Return(const std::shared_ptr<Expression>& value);
 };
 
 class FunctionDefinition : public Node {
 public:
     std::string name;
     FunctionDefinition(std::string&& name, const std::shared_ptr<Return>& body);
+};
+
+class Program : public Node {
+public:
+    explicit Program(NRefVec&& children);
 };
 
 #endif

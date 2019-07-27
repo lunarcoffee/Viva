@@ -17,7 +17,7 @@ void Generator::traverse(const std::shared_ptr<Node>& node) {
     }
     case NT::RET: {
         auto r{reinterpret_cast<Return*>(node.get())};
-        file << "mov eax, " << r->constant->value << "\nret";
+//        file << "mov eax, " << r->exp-> << "\nret";
         break;
     }
     default:
